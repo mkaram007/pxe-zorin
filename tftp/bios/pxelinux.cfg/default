@@ -16,4 +16,6 @@ LABEL Ubuntu Desktop 20.04
     append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount toram --- -- locale=en_US keyboard-configuration/modelcode=SKIP automatic-ubiquity url=http://10.0.200.5/desktop/ubuntu-20.04/kickstart/mykick.seed --
     #append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount autoinstall quiet ---
 
-
+LABEL Zorin
+    kernel /boot/casper/vmlinuz
+    append nfsroot=10.0.200.5:/var/www/html/desktop/zorin netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount toram --- -- locale=en_US keyboard-configuration/modelcode=SKIP automatic-ubiquity url=http://10.0.200.5/desktop/ubuntu-20.04/kickstart/mykick.seed --
