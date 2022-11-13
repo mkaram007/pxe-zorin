@@ -14,7 +14,7 @@ A --> C(NFS)
 B -- IP + PXE + TFTP --> D(Client)
 C -- Shares ISO --> D
 A --> E(HTTP)
-E --> D
+E -- Passes preseed file --> D
 D -- Runs --> F((preseed))
 ```
 
