@@ -1,19 +1,19 @@
 # PXE - Zorin/Ubuntu - Preseed
 ## Prerequisites:
 #### An installed ubuntu OS machine
-It has to be attached with a NIC card that supports netbooting
+It has to be integrated with a NIC card that supports netbooting
 #### A network with disabled main DHCP server 
 #### Downloaded ISOs of the ubuntu desktop and zorin OS, lets say in the ~/Downloads directory
 
 ## Overview
-### We'll creat a complete system to allow a new bare metal machine to boot to ubuntu or zorin OS through the network, we would install an http server to publish the required files for the OS installation, an nfs server to share the iso image of the OSs, and a dhcp server to publish the required information for the new machine to get a new IP and some additional information to allow netbooting.
+We'll creat a complete system to allow a new bare metal machine to boot to ubuntu or zorin OS through the network, we would install an http server to publish the required files for the OS installation, an nfs server to share the iso image of the OSs, and a dhcp server to publish the required information for the new machine to get a new IP and some additional information to allow netbooting.
 
-## Steps
+## Configuration steps
 ### Install the required software packages
 ```
 apt-get install apache2
 apt-get install nfs-kernel-server 
-apt-get install dnsmasq
+apt-get install dnsmasq #This would result in an acceptable error before configuration
 ```
 ### Download the following packages to extract some required files for booting
 ```
@@ -22,7 +22,6 @@ cd ~/Downloads/syslinux
 wget https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.zip
 unzip syslinux-6.03.zip
 ```
-### Some more packages
 ```
 apt-get download shim.signed
 dpkg -x <%name of deb package%> shim  
@@ -30,57 +29,45 @@ dpkg -x <%name of deb package%> shim
 apt-get download grub-efi-amd64-signed
 dpkg -x <%name of deb package%> grub
 ```
-```
-sudo mkdir -p /tftp/bios
-sudo mkdir /tftp/boot
-sudo mkdir /tftp/grub
-```
-### dirs for copying ISO contents
-```
-sudo mkdir -p /var/www/html/desktop/ubuntu
-sudo mkdir /var/www/html/desktop/zorin
-```
-### dirs for mounting ISOs
+### Get the necessary ISO-dependant files
+#### Create the following dirs
+```sudo mkdir -p /tftp/bios /tftp/boot /tftp/grub```
+
+#### dirs for copying ISO contents and mounting images
+```sudo mkdir -p /var/www/html/desktop/ubuntu /var/www/html/desktop/zorin```
 ```sudo mkdir /media/ubuntu /media/zorin```
 ### Moutning ISOs
 ```
 sudo mount /home/karam/zorin.iso /media/zorin`  
 sudo mount /home/karam/ubuntu.iso /media/ubuntu  
 ```
-### Copy the ISOs whole content
+#### Copy the ISOs whole content
 ```
-sudo cp -rf  /media/ubuntu/*  /var/www/html/desktop/ubuntu
-sudo cp -rf  /media/ubuntu/.disk  /var/www/html/desktop/ubuntu
-sudo cp -rf  /media/zorin/*  /var/www/html/desktop/zorin
-sudo cp -rf  /media/zorin/.disk  /var/www/html/desktop/zorin
+sudo cp -rf  /media/ubuntu/*  /media/ubuntu/.disk  /var/www/html/desktop/ubuntu
+sudo cp -rf  /media/zorin/*  /media/zorin/.disk  /var/www/html/desktop/zorin
 ```
-
-### Unmounting the ISOs
 ```
 sudo umount /media/zorin
 sudo umount /media/ubuntu
 ```
 
-
-### Update the nfs configuration to share the ISOs contents
+### Configure NFS
 ```
 sudo vim /etc/exports
 ```
-
-
-### Add the following line, don't forget to tune depending on your network schema
+#### Add the following line, don't forget to tune depending on your network schema
 ```
 /var/www/html/desktop             10.0.200.0/24(ro)
 ```
 
-### Restart the nfs service
+#### Restart the nfs service
 ```
 sudo systemctl restart nfs-kernel-server
 ```
 Actually ```exportfs -a``` would work :D
 
 
-### Configure the DHCP server
+### Configure DHCP
 ```
 sudo vim /etc/dnsmasq.conf 
 ```
@@ -188,7 +175,7 @@ LABEL Ubuntu Desktop 20.04
 ```
 
 
-### Edit the grub.cfg configuration file and add the following configuration
+### Configure grub
 ```
 if loadfont /grub/font.pf2 ; then
 set gfxmode=auto
