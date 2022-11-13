@@ -44,8 +44,10 @@ dpkg -x <%name of deb package%> grub
 ```sudo mkdir -p /tftp/bios /tftp/boot /tftp/grub```
 
 #### dirs for copying ISO contents and mounting images
-```sudo mkdir -p /var/www/html/desktop/ubuntu /var/www/html/desktop/zorin```
-```sudo mkdir /media/ubuntu /media/zorin```
+```
+sudo mkdir -p /var/www/html/desktop/ubuntu /var/www/html/desktop/zorin
+sudo mkdir /media/ubuntu /media/zorin
+```
 ### Moutning ISOs
 ```
 sudo mount /home/karam/zorin.iso /media/zorin`  
