@@ -1,8 +1,8 @@
 # PXE - Zorin/Ubuntu - Preseed
 ## Prerequisites:
-### An installed ubuntu OS machine
-#### It has to have an attached NIC card that supports netbooting
-### A network with disabled main DHCP server 
+#### An installed ubuntu OS machine
+It has to be attached with a NIC card that supports netbooting
+#### A network with disabled main DHCP server 
 ### Downloaded ISOs of the ubuntu desktop and zorin OS, lets say in the ~/Downloads directory
 
 ## Overview
