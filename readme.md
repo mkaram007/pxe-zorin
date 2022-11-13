@@ -3,7 +3,7 @@
 #### An installed ubuntu OS machine
 It has to be attached with a NIC card that supports netbooting
 #### A network with disabled main DHCP server 
-### Downloaded ISOs of the ubuntu desktop and zorin OS, lets say in the ~/Downloads directory
+#### Downloaded ISOs of the ubuntu desktop and zorin OS, lets say in the ~/Downloads directory
 
 ## Overview
 ### We'll creat a complete system to allow a new bare metal machine to boot to ubuntu or zorin OS through the network, we would install an http server to publish the required files for the OS installation, an nfs server to share the iso image of the OSs, and a dhcp server to publish the required information for the new machine to get a new IP and some additional information to allow netbooting.
@@ -35,12 +35,12 @@ sudo mkdir -p /tftp/bios
 sudo mkdir /tftp/boot
 sudo mkdir /tftp/grub
 ```
-### Dirs for copied ISO contents
+### dirs for copying ISO contents
 ```
 sudo mkdir -p /var/www/html/desktop/ubuntu
 sudo mkdir /var/www/html/desktop/zorin
 ```
-### Dirs for mounting ISOs
+### dirs for mounting ISOs
 ```sudo mkdir /media/ubuntu /media/zorin```
 ### Moutning ISOs
 ```
@@ -68,12 +68,12 @@ sudo vim /etc/exports
 ```
 
 
-
+### Add the following line, don't forget to tune depending on your network schema
 ```
 /var/www/html/desktop             10.0.200.0/24(ro)
 ```
 
-
+### Restart the nfs service
 ```
 sudo systemctl restart nfs-kernel-server
 ```
@@ -85,7 +85,7 @@ Actually ```exportfs -a``` would work :D
 sudo vim /etc/dnsmasq.conf 
 ```
 
-## Add the following configurations and edit depending on you network
+#### Add the following configurations and edit depending on you network
 ```
 #Interface information 
 #--use ip addr to see the name of the interface on your system
@@ -127,12 +127,12 @@ dhcp-boot=tag:efi-x86_64,grub/bootx64.efi
 ```
 
 
-### Make sure no DNS or DHCP Server is working on the server
+#### Make sure no DNS or DHCP Server is working on the server
 ```
 sudo systemctl restart dnsmasq
 sudo systemctl status dnsmasq
 ```
-### If you don't have the new-materials files
+### Copy the necessary booting files from the syslinux directory
 ```
 sudo cp bios/com32/elflink/ldlinux/ldlinux.c32  /tftp/bios
 sudo cp bios/com32/libutil/libutil.c32  /tftp/bios  
@@ -141,7 +141,7 @@ sudo cp bios/com32/menu/vesamenu.c32  /tftp/bios
 sudo cp bios/core/pxelinux.0  /tftp/bios
 sudo cp bios/core/lpxelinux.0  /tftp/bios
 ```
-### More if you don't have the new-materials files
+#### More files from the iso
 ```
 sudo cp ~/Downloads/grub/usr/lib/grub/x86_64-efi-signed/grubnetx64.efi.signed  /tftp/grubx64.efi
 sudo cp ~/Downloads/shim/usr/lib/shim/shimx64.efi.signed  /tftp/grub/bootx64.efi
@@ -151,25 +151,25 @@ sudo cp ~/Downloads/shim/usr/lib/shim/shimx64.efi.signed  /tftp/grub/bootx64.efi
 sudo cp /var/www/html/desktop/ubuntu/boot/grub/grub.cfg  /tftp/grub/
 sudo cp /var/www/html/desktop/ubuntu/boot/grub/font.pf2 /tftp/grub/
 ```
-
-mkdir /tftp/boot/casper
+#### Copy the kernel and initrd files to the casper directory
 ```
+mkdir /tftp/boot/casper
 sudo cp /var/www/html/desktop/ubuntu/casper/vmlinuz      /tftp/boot/casper
 sudo cp /var/www/html/desktop/ubuntu/casper/initrd       /tftp/boot/casper
 ```
 
-### Allow the boot process to find the boot files in the root tftp directory
+#### Allow the boot process to find the boot files in the root tftp directory
 ```
 sudo ln -s /tftp/boot  /tftp/bios/boot
 ```
-### Create the directory of the pxe configuration
+#### Create the directory of the pxe configuration
 ```
 sudo mkdir /tftp/bios/pxelinux.cfg
 ```
 ```
 vim /tftp/bios/pxelinux.cfg/default
 ```
-### Copy the following pxe configuration and change it to correspond to your schema
+#### Add the following pxe configuration and change it to correspond to your schema
 ```
 DEFAULT menu.c32
 MENU TITLE ULTIMATE PXE SERVER - By Linux-Plus
@@ -188,7 +188,7 @@ LABEL Ubuntu Desktop 20.04
 ```
 
 
-## Edit the grub.cfg configuration file and add the following configuration
+### Edit the grub.cfg configuration file and add the following configuration
 ```
 if loadfont /grub/font.pf2 ; then
 set gfxmode=auto
