@@ -1,0 +1,7 @@
+autoinstall:
+	version: 1
+	identity:
+		hostname: karam-ubuntu-desktop
+		password: $1$SgEeHSza$v3z90ccZ94kC9Iqg9OJzQ0
+		username: karam
+

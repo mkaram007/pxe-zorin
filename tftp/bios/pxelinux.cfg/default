@@ -1,0 +1,19 @@
+DEFAULT menu.c32
+MENU TITLE ULTIMATE PXE SERVER - By Linux-Plus
+PROMPT 0
+TIMEOUT 0
+
+MENU COLOR TABMSG  37;40  #ffffffff #00000000
+MENU COLOR TITLE   37;40  #ffffffff #00000000
+MENU COLOR SEL      7     #ffffffff #00000000
+MENU COLOR UNSEL    37;40 #ffffffff #00000000
+MENU COLOR BORDER   37;40 #ffffffff #00000000
+
+LABEL Ubuntu Desktop 20.04
+    kernel /boot/casper/vmlinuz
+    #append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount automatic-ubiquity ks=http://10.0.200.5/desktop/ubuntu-20.04/kickstart/mykick.cfg --
+    #append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount only-ubiquity autoinstall ds='nocloud-net;s=http://10.0.200.5/desktop/ubuntu-20.04/kickstart' --
+    append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount toram --- -- locale=en_US keyboard-configuration/modelcode=SKIP automatic-ubiquity url=http://10.0.200.5/desktop/ubuntu-20.04/kickstart/mykick.seed --
+    #append nfsroot=10.0.200.5:/var/www/html/desktop/ubuntu-20.04 netboot=nfs ip=dhcp boot=casper initrd=/boot/casper/initrd systemd.mask=tmp.mount autoinstall quiet ---
+
+
