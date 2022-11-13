@@ -41,7 +41,9 @@ dpkg -x <%name of deb package%> grub
 ```
 ### Get the necessary ISO-dependant files
 #### Create the following dirs
-```sudo mkdir -p /tftp/bios /tftp/boot /tftp/grub```
+```
+sudo mkdir -p /tftp/bios /tftp/boot /tftp/grub
+```
 
 #### dirs for copying ISO contents and mounting images
 ```
