@@ -1,22 +1,12 @@
-# PXE - Zorin/Ubuntu - Preseed ( NOT FINAL)
+# PXE - Zorin/Ubuntu - Preseed
 ## Prerequisites:
 #### An installed ubuntu OS machine
->It has to be integrated with a NIC card that supports netbooting
+It has to be integrated with a NIC card that supports netbooting
 #### A network with disabled main DHCP server 
 #### Downloaded ISOs of the ubuntu desktop and zorin OS, lets say in the ~/Downloads directory
 
 ## Overview
 We'll creat a complete system to allow a new bare metal machine to boot to ubuntu or zorin OS through the network, we would install an http server to publish the required files for the OS installation, an nfs server to share the iso image of the OSs, and a dhcp server to publish the required information for the new machine to get a new IP and some additional information to allow netbooting.
-```mermaid
-graph LR
-A[PXE Client] -- Requests --> B(DHCP)
-A --> C(NFS)
-B -- IP + PXE + TFTP --> D(Client)
-C -- Shares ISO --> D
-A --> E(HTTP)
-E --> D
-D -- Runs --> F((preseed))
-```
 
 ## Configuration steps
 ### Install the required software packages
@@ -74,7 +64,7 @@ sudo vim /etc/exports
 ```
 sudo systemctl restart nfs-kernel-server
 ```
-> Actually ```exportfs -a``` would work :D
+Actually ```exportfs -a``` would work :D
 
 
 ### Configure DHCP
