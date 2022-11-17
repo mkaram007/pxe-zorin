@@ -7,16 +7,6 @@
 
 ## Overview
 We'll creat a complete system to allow a new bare metal machine to boot to ubuntu or zorin OS through the network, we would install an http server to publish the required files for the OS installation, an nfs server to share the iso image of the OSs, and a dhcp server to publish the required information for the new machine to get a new IP and some additional information to allow netbooting.
-```mermaid
-graph LR
-A[PXE Client] -- Requests --> B(DHCP)
-A --> C(NFS)
-B -- IP + PXE + TFTP --> D(Client)
-C -- Shares ISO --> D
-A --> E(HTTP)
-E -- Passes preseed file --> D
-D -- Runs --> F((preseed))
-```
 
 ```mermaid
 sequenceDiagram
