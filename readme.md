@@ -18,6 +18,19 @@ E -- Passes preseed file --> D
 D -- Runs --> F((preseed))
 ```
 
+```mermaid
+sequenceDiagram
+    participant PXE Client
+    participant PXE Server
+	PXE Client->PXE Server: Can I get an IP?
+PXE Server->PXE Client: Yes, and here are PXE information
+PXE Client->PXE Server: Wow, let me get tftp also to netboot
+PXE Server->PXE Client: Sure, here's its IP
+PXE Client->PXE Server: Great, what about the kernel and initrd files?
+PXE Server->PXE Client: There you are
+```
+
+
 ## Configuration steps
 ### Install the required software packages
 ```
